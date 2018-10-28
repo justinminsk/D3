@@ -1,0 +1,1 @@
+SELECT yearID, HR FROM Batting WHERE playerID='ruthba01';

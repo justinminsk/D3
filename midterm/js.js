@@ -6,11 +6,6 @@ async function main(){
 	var h = 500;
 	var padding = 50;
 	
-	var svg = d3.select("body")
-				.append("svg")
-				.attr("width",w)
-				.attr("height",h);
-	
 	var select = d3.select('body')
   					.append('select')
 				  	.attr('class','select');
@@ -20,6 +15,23 @@ async function main(){
 			.enter()
 			.append('option')
 			.text(function (d) { return d; });
+			
+	var ul = d3.select("body")
+					.append("ul")
+					.attr("class", "ul");
+			
+	ul.selectAll("li")
+		.data([0])
+		.enter()
+		.append("h3")
+		.html("Anaheim Angels")
+		.attr("class", "name");
+	
+	var svg = d3.select("body")
+				.append("div")
+				.append("svg")
+				.attr("width",w)
+				.attr("height",h);
 	
 	var yScale = d3.scaleLinear()
 					.domain([270, 0])
@@ -54,7 +66,7 @@ async function main(){
 				.ease(d3.easeBounce)
 				.attr("cy", yScale(Math.ceil(parseInt(d.salary) / 100000000)));
 		});
-	
+		
 	svg.append("g")
 			.attr("class", "yaxis")
 			.attr("transform","translate("+(padding)+",0)")
@@ -67,12 +79,21 @@ async function main(){
 			
 			console.log(selected);
 			
+			d3.selectAll(".name").remove();
+			ul.selectAll("li")
+				.data([0])
+				.enter()
+				.append("h3")
+				.text(selected)
+				.attr("class", "name");
+			
 			svg.select(".salary")
 						.datum(dataset)
 						.transition()
 						.duration(1000)
 						.ease(d3.easeBounce)
 						.attr("cy", yScale(0));
+				
 			
 			svg.selectAll(".years").remove();
 			svg.selectAll(".years")
